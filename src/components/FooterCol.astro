@@ -1,0 +1,26 @@
+---
+interface Props {
+  title: string;
+  items: ReadonlyArray<{ label: string; href: string }>;
+}
+const { title, items } = Astro.props;
+---
+
+<div>
+  <h4 class="font-display text-sm tracking-widest text-bone/40">{title}</h4>
+  <ul class="mt-4 space-y-3">
+    {
+      items.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            class="text-sm text-bone/70 transition-colors hover:text-yellow"
+            data-cursor="hover"
+          >
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>

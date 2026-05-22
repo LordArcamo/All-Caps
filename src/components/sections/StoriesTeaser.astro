@@ -1,0 +1,109 @@
+---
+import Button from "@components/ui/Button.astro";
+
+const stories = [
+  {
+    tag: "MAKING",
+    title: "Inside the Brooklyn workshop: every stitch, named.",
+    date: "MAY 12, 2026",
+    read: "6 MIN",
+    tone: "#FFCC00",
+    href: "/stories/brooklyn-workshop",
+  },
+  {
+    tag: "CULTURE",
+    title: "The cap is the new t-shirt. Here's why.",
+    date: "APR 28, 2026",
+    read: "4 MIN",
+    tone: "#FF2D2D",
+    href: "/stories/cap-is-the-new-tee",
+  },
+  {
+    tag: "DROP",
+    title: "Drop 02 — the photo diary.",
+    date: "APR 18, 2026",
+    read: "3 MIN",
+    tone: "#3A3F45",
+    href: "/stories/drop-02-diary",
+  },
+];
+---
+
+<section class="bg-ink py-32 lg:py-40" data-section="stories">
+  <div class="mx-auto max-w-[1600px] px-6 lg:px-10">
+    <div class="mb-16 flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
+      <div>
+        <div class="mb-4 flex items-center gap-3 font-mono text-xs tracking-widest text-bone/60">
+          <span class="block h-px w-12 bg-yellow"></span>
+          <span>JOURNAL</span>
+        </div>
+        <h2 class="font-display tracking-tight" style="font-size: clamp(2rem, 5vw, 4rem);">
+          STORIES <span class="italic text-yellow">FROM</span> THE BRIM.
+        </h2>
+      </div>
+      <Button href="/stories" variant="ghost" arrow>ALL STORIES</Button>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-3" data-stories-grid>
+      {stories.map((s) => (
+        <a
+          href={s.href}
+          class="group relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-bone/10 bg-black p-6 transition-all hover:border-yellow/40 hover:bg-graphite"
+          data-story-card
+          data-cursor="hover"
+        >
+          <div
+            class="relative aspect-[4/3] overflow-hidden rounded-xl"
+            style={`background: linear-gradient(135deg, ${s.tone}30, #0a0a0a 70%);`}
+          >
+            <div class="noise-overlay absolute inset-0 opacity-30"></div>
+            <div
+              class="absolute inset-0 grid place-items-center font-display text-7xl text-bone/[0.08]"
+              style="letter-spacing:-0.04em;"
+            >
+              {s.tag}
+            </div>
+          </div>
+          <div class="flex items-center gap-3 font-mono text-[10px] tracking-widest text-bone/40">
+            <span>{s.tag}</span>
+            <span>·</span>
+            <span>{s.date}</span>
+            <span>·</span>
+            <span>{s.read} READ</span>
+          </div>
+          <h3 class="font-display text-2xl leading-tight tracking-tight text-bone transition-colors group-hover:text-yellow">
+            {s.title}
+          </h3>
+          <div class="mt-auto flex items-center gap-2 text-xs font-display tracking-widest text-bone/60 transition-colors group-hover:text-yellow">
+            <span>READ</span>
+            <span class="transition-transform group-hover:translate-x-1">→</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  ScrollTrigger.batch("[data-story-card]", {
+    interval: 0.08,
+    start: "top 85%",
+    onEnter: (els) =>
+      gsap.fromTo(
+        els,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "expo.out",
+          stagger: 0.1,
+        },
+      ),
+  });
+</script>

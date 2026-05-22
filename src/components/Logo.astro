@@ -1,0 +1,68 @@
+---
+interface Props {
+  variant?: "full" | "mark";
+  class?: string;
+}
+const { variant = "full", class: className = "" } = Astro.props;
+---
+
+{
+  variant === "mark" ? (
+    <svg
+      viewBox="0 0 120 80"
+      class={className}
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="ALL CAPS"
+    >
+      <path
+        d="M10 50 L30 15 L50 15 L70 50 Z"
+        fill="#0A0A0A"
+      />
+      <path
+        d="M30 50 Q60 60 110 50 Q100 65 60 70 Q25 65 10 55 Z"
+        fill="#FFCC00"
+      />
+      <text
+        x="40"
+        y="42"
+        font-family="Anton, Bebas Neue, sans-serif"
+        font-size="28"
+        fill="#FFCC00"
+        font-weight="900"
+        font-style="italic"
+      >
+        AC
+      </text>
+    </svg>
+  ) : (
+    <div class:list={["flex items-center gap-3", className]}>
+      <svg
+        viewBox="0 0 120 80"
+        class="h-9 w-auto"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-label="ALL CAPS"
+      >
+        <path d="M10 50 L30 15 L50 15 L70 50 Z" fill="#0A0A0A" />
+        <path
+          d="M30 50 Q60 60 110 50 Q100 65 60 70 Q25 65 10 55 Z"
+          fill="#FFCC00"
+        />
+        <text
+          x="40"
+          y="42"
+          font-family="Anton, Bebas Neue, sans-serif"
+          font-size="28"
+          fill="#FFCC00"
+          font-weight="900"
+          font-style="italic"
+        >
+          AC
+        </text>
+      </svg>
+      <span class="font-display text-2xl tracking-tight leading-none">
+        <span class="text-bone">ALL</span>
+        <span class="text-yellow">CAPS</span>
+      </span>
+    </div>
+  )
+}

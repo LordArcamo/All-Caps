@@ -1,0 +1,81 @@
+---
+import ProductCard from "@components/ui/ProductCard.astro";
+import Button from "@components/ui/Button.astro";
+import { PRODUCTS } from "@data/products";
+
+const featured = PRODUCTS.slice(0, 6);
+---
+
+<section
+  class="relative bg-black py-32 lg:py-48"
+  data-section="drops"
+>
+  <div class="mx-auto max-w-[1600px] px-6 lg:px-10">
+    {/* Section header */}
+    <div class="mb-16 flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
+      <div data-drops-header>
+        <div class="mb-4 flex items-center gap-3 font-mono text-xs tracking-widest text-bone/60">
+          <span class="block h-px w-12 bg-yellow"></span>
+          <span>FEATURED — DROP 02</span>
+        </div>
+        <h2 class="font-display tracking-tight" style="font-size: clamp(2.5rem, 7vw, 6rem);">
+          <span class="block">THE FRESH</span>
+          <span class="block text-yellow italic">CUT.</span>
+        </h2>
+        <p class="mt-6 max-w-md text-base text-bone/60">
+          Eight new pieces this month. Hand-stitched in limited runs of 200. Once they're gone, they're history.
+        </p>
+      </div>
+      <Button href="/shop" variant="outline" arrow>SEE THE FULL DROP</Button>
+    </div>
+
+    {/* Grid */}
+    <div
+      class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+      data-drops-grid
+    >
+      {featured.map((product, i) => (
+        <div data-drop-item>
+          <ProductCard product={product} index={i} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  ScrollTrigger.batch("[data-drop-item]", {
+    interval: 0.05,
+    start: "top 85%",
+    onEnter: (els) =>
+      gsap.fromTo(
+        els,
+        { opacity: 0, y: 80, scale: 0.96 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1.0,
+          ease: "expo.out",
+          stagger: 0.08,
+        },
+      ),
+  });
+
+  gsap.from("[data-drops-header] > *", {
+    opacity: 0,
+    y: 30,
+    duration: 0.9,
+    ease: "expo.out",
+    stagger: 0.1,
+    scrollTrigger: {
+      trigger: "[data-drops-header]",
+      start: "top 80%",
+    },
+  });
+</script>

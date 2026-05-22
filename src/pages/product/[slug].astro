@@ -1,0 +1,196 @@
+---
+import Layout from "@layouts/Layout.astro";
+import TiltGallery from "@components/react/TiltGallery.tsx";
+import BuyBox from "@components/react/BuyBox.tsx";
+import ProductCard from "@components/ui/ProductCard.astro";
+import Button from "@components/ui/Button.astro";
+import { PRODUCTS, getProduct } from "@data/products";
+
+export function getStaticPaths() {
+  return PRODUCTS.map((p) => ({
+    params: { slug: p.slug },
+    props: { product: p },
+  }));
+}
+
+const { product } = Astro.props;
+if (!product) return Astro.redirect("/shop");
+
+const related = PRODUCTS.filter(
+  (p) => p.category === product.category && p.slug !== product.slug,
+).slice(0, 3);
+
+const lessRelated = PRODUCTS.filter((p) => p.slug !== product.slug)
+  .slice(0, 4)
+  .filter((p) => !related.some((r) => r.slug === p.slug));
+const recos = [...related, ...lessRelated].slice(0, 4);
+---
+
+<Layout title={`${product.name} — ${product.tagline}`} description={product.description}>
+  {/* Breadcrumb */}
+  <div class="bg-black pt-32">
+    <div class="mx-auto max-w-[1600px] px-6 lg:px-10">
+      <nav class="flex items-center gap-2 font-mono text-xs tracking-widest text-bone/40">
+        <a href="/" class="hover:text-yellow">HOME</a>
+        <span>/</span>
+        <a href="/shop" class="hover:text-yellow">SHOP</a>
+        <span>/</span>
+        <a href={`/shop?cat=${product.category}`} class="hover:text-yellow uppercase">
+          {product.category}S
+        </a>
+        <span>/</span>
+        <span class="text-bone">{product.name}</span>
+      </nav>
+    </div>
+  </div>
+
+  {/* PDP main grid */}
+  <section class="bg-black py-12 lg:py-16">
+    <div class="mx-auto grid max-w-[1600px] gap-12 px-6 lg:grid-cols-2 lg:gap-16 lg:px-10">
+      <div class="lg:sticky lg:top-32 lg:self-start">
+        <TiltGallery product={product} client:load />
+      </div>
+      <BuyBox product={product} client:load />
+    </div>
+  </section>
+
+  {/* Specs reveal */}
+  <section class="bg-ink py-24 lg:py-32" data-section="specs">
+    <div class="mx-auto max-w-[1600px] px-6 lg:px-10">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+          <div class="mb-4 flex items-center gap-3 font-mono text-xs tracking-widest text-bone/60">
+            <span class="block h-px w-12 bg-yellow"></span>
+            <span>BUILT TO LAST</span>
+          </div>
+          <h2 class="font-display tracking-tight" style="font-size: clamp(2rem, 4vw, 4rem);">
+            THE <span class="italic text-yellow">SPECS.</span>
+          </h2>
+          <p class="mt-6 text-bone/60">
+            Every cap goes through a 14-point QC check. Made in small batches.
+            Numbered on the inside lining.
+          </p>
+        </div>
+
+        <div class="lg:col-span-8">
+          <div class="space-y-px">
+            {product.features.map((feature, i) => (
+              <div
+                class="group flex items-center justify-between border-b border-bone/10 py-6 transition-all hover:bg-bone/[0.02] hover:px-4"
+                data-spec-row
+              >
+                <span class="font-mono text-sm text-bone/40">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span class="flex-1 px-6 text-lg text-bone">{feature}</span>
+                <span class="text-yellow opacity-0 transition-opacity group-hover:opacity-100">
+                  →
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div class="mt-12 grid grid-cols-2 gap-6 border-t border-bone/10 pt-8">
+            <div>
+              <div class="font-mono text-xs tracking-widest text-bone/40">
+                MATERIALS
+              </div>
+              <ul class="mt-3 space-y-1 text-sm text-bone/80">
+                {product.materials.map((m) => (
+                  <li>· {m}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <div class="font-mono text-xs tracking-widest text-bone/40">
+                MADE IN
+              </div>
+              <p class="mt-3 text-sm text-bone/80">
+                Brooklyn, NY · Hand-finished
+              </p>
+              <div class="mt-6 font-mono text-xs tracking-widest text-bone/40">
+                EDITION
+              </div>
+              <p class="mt-3 text-sm text-bone/80">
+                {product.drop} · 200 made
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Big quote */}
+  <section class="relative overflow-hidden bg-black py-32 lg:py-48">
+    <div class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.04]">
+      <div
+        class="font-display whitespace-nowrap"
+        style="font-size: clamp(8rem, 22vw, 22rem); letter-spacing: -0.04em;"
+      >
+        {product.name}
+      </div>
+    </div>
+    <div class="relative mx-auto max-w-4xl px-6 text-center">
+      <span class="text-6xl text-yellow">"</span>
+      <p
+        class="font-display leading-[1.1] text-bone"
+        style="font-size: clamp(1.5rem, 3.5vw, 3.5rem);"
+      >
+        It's the only cap I've worn for the last six months. The build is
+        ridiculous. The fade is even better.
+      </p>
+      <div class="mt-8 flex items-center justify-center gap-3 font-mono text-xs tracking-widest text-bone/60">
+        <span class="h-px w-12 bg-yellow"></span>
+        <span>@daniel.k — DROP 01 BUYER</span>
+        <span class="h-px w-12 bg-yellow"></span>
+      </div>
+    </div>
+  </section>
+
+  {/* Related */}
+  <section class="bg-black py-24 lg:py-32" data-section="related">
+    <div class="mx-auto max-w-[1600px] px-6 lg:px-10">
+      <div class="mb-12 flex items-end justify-between">
+        <div>
+          <div class="mb-4 flex items-center gap-3 font-mono text-xs tracking-widest text-bone/60">
+            <span class="block h-px w-12 bg-yellow"></span>
+            <span>MORE LIKE THIS</span>
+          </div>
+          <h2 class="font-display tracking-tight" style="font-size: clamp(2rem, 4.5vw, 4rem);">
+            KEEP <span class="italic text-yellow">DIGGING.</span>
+          </h2>
+        </div>
+        <Button href="/shop" variant="ghost" arrow>SHOP ALL</Button>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {recos.map((p, i) => <ProductCard product={p} index={i} />)}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  ScrollTrigger.batch("[data-spec-row]", {
+    interval: 0.05,
+    start: "top 90%",
+    onEnter: (els) =>
+      gsap.fromTo(
+        els,
+        { opacity: 0, x: -30 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.7,
+          ease: "expo.out",
+          stagger: 0.06,
+        },
+      ),
+  });
+</script>

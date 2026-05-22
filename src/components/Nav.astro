@@ -1,0 +1,107 @@
+---
+import Logo from "./Logo.astro";
+import { NAV } from "@data/site";
+import { ShoppingBag, Search, User, Menu } from "lucide-react";
+---
+
+<header
+  id="site-nav"
+  class="fixed inset-x-0 top-0 z-50 transition-all duration-500"
+  data-nav-root
+>
+  {/* Announcement bar */}
+  <div class="bg-yellow text-black overflow-hidden">
+    <div class="marquee-track py-2 text-xs font-display tracking-widest uppercase">
+      {Array.from({ length: 2 }).map(() => (
+        <div class="flex items-center gap-8 px-4 whitespace-nowrap">
+          <span>★ SHIPPING'S FREE OVER $75</span>
+          <span>★ DROP 02 — LIVE</span>
+          <span>★ INSIDERS GET FIRST DIBS</span>
+          <span>★ SHIPPING'S FREE OVER $75</span>
+          <span>★ DROP 02 — LIVE</span>
+          <span>★ INSIDERS GET FIRST DIBS</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* Main nav */}
+  <div
+    class="relative border-b border-bone/10 bg-black/70 backdrop-blur-xl backdrop-saturate-150"
+    data-nav-bar
+  >
+    <div class="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-4 lg:px-10">
+      <a href="/" class="group" aria-label="ALL CAPS home">
+        <Logo />
+      </a>
+
+      <nav class="hidden items-center gap-1 lg:flex" aria-label="Primary">
+        {
+          NAV.primary.map((item) => (
+            <a
+              href={item.href}
+              class="group relative px-5 py-2 font-display text-sm uppercase tracking-wider text-bone/80 transition-colors hover:text-bone"
+            >
+              <span class="relative z-10">{item.label}</span>
+              <span class="absolute inset-x-5 bottom-1 h-px origin-left scale-x-0 bg-yellow transition-transform duration-500 group-hover:scale-x-100" />
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button
+          class="grid h-10 w-10 place-items-center rounded-full text-bone/80 transition-all hover:bg-bone/10 hover:text-yellow"
+          aria-label="Search"
+        >
+          <Search size={18} />
+        </button>
+        <a
+          href="/account"
+          class="hidden h-10 w-10 place-items-center rounded-full text-bone/80 transition-all hover:bg-bone/10 hover:text-yellow lg:grid"
+          aria-label="Account"
+        >
+          <User size={18} />
+        </a>
+        <button
+          class="relative grid h-10 w-10 place-items-center rounded-full text-bone/80 transition-all hover:bg-bone/10 hover:text-yellow"
+          aria-label="Cart"
+          data-cart-trigger
+        >
+          <ShoppingBag size={18} />
+          <span
+            class="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-yellow font-display text-[10px] text-black"
+            data-cart-count
+          >
+            0
+          </span>
+        </button>
+        <button
+          class="grid h-10 w-10 place-items-center rounded-full text-bone/80 transition-all hover:bg-bone/10 hover:text-yellow lg:hidden"
+          aria-label="Menu"
+          data-mobile-trigger
+        >
+          <Menu size={18} />
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const nav = document.querySelector<HTMLElement>("[data-nav-root]");
+  let lastY = 0;
+  if (nav) {
+    window.addEventListener("scroll", () => {
+      const y = window.scrollY;
+      if (y > 80) {
+        nav.classList.add("translate-y-0");
+        if (y > lastY) nav.style.transform = "translateY(-100%)";
+        else nav.style.transform = "translateY(0)";
+      } else {
+        nav.style.transform = "translateY(0)";
+      }
+      lastY = y;
+    });
+  }
+</script>

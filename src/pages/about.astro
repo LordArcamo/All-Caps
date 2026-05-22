@@ -1,0 +1,239 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Button from "@components/ui/Button.astro";
+import Stat from "@components/Stat.astro";
+
+const team = [
+  {
+    name: "JESSE OKONKWO",
+    role: "FOUNDER · CREATIVE DIRECTOR",
+    city: "BROOKLYN",
+    tone: "#FFCC00",
+  },
+  {
+    name: "MIA TAKEUCHI",
+    role: "HEAD OF DESIGN",
+    city: "TOKYO",
+    tone: "#FF2D2D",
+  },
+  {
+    name: "LARS WEBER",
+    role: "PRODUCTION LEAD",
+    city: "BERLIN",
+    tone: "#3A3F45",
+  },
+  {
+    name: "AALIYAH JEAN",
+    role: "BRAND + COMMUNITY",
+    city: "BROOKLYN",
+    tone: "#D9C9A8",
+  },
+];
+
+const values = [
+  {
+    kicker: "01",
+    title: "200 OR LESS",
+    body: "Every drop. Every edition. Sold out is the goal — not the surprise.",
+  },
+  {
+    kicker: "02",
+    title: "NAME ON THE LINING",
+    body: "Whoever stitched it gets credit. You get a cap. They get paid fairly. Everybody wins.",
+  },
+  {
+    kicker: "03",
+    title: "BUILT TO BEAT UP",
+    body: "Wear it. Bend the brim. Spill on it. Real caps get better with damage.",
+  },
+  {
+    kicker: "04",
+    title: "ZERO BS MARKETING",
+    body: "No influencer gifting. No fake limited drops with restocks. If we made 200, we made 200.",
+  },
+];
+---
+
+<Layout title="The story" description="ALL CAPS is a premium headwear label built in Brooklyn, Tokyo, and Berlin. 200 made per drop. Sold out is the goal.">
+
+  {/* Hero */}
+  <section class="relative overflow-hidden bg-black pt-40 pb-20">
+    <div
+      class="pointer-events-none absolute -top-60 right-10 h-[90vh] w-[90vh] rounded-full opacity-30 blur-[120px]"
+      style="background: radial-gradient(circle, #FF2D2D 0%, transparent 70%);"
+    ></div>
+
+    <div class="relative mx-auto max-w-[1600px] px-6 lg:px-10">
+      <div class="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-bone/60">
+        <span class="block h-px w-12 bg-yellow"></span>
+        <span>EST · 2025 — THE STORY</span>
+      </div>
+      <h1
+        class="font-display tracking-tight"
+        style="font-size: clamp(3rem, 11vw, 11rem); line-height: 0.85;"
+      >
+        <span class="block">SMALL LABEL.</span>
+        <span class="block text-yellow italic">LOUD CAPS.</span>
+        <span class="block text-stroke">ZERO COMPROMISE.</span>
+      </h1>
+      <p
+        class="mt-10 max-w-2xl text-lg leading-relaxed text-bone/70 lg:text-xl"
+      >
+        We started ALL CAPS in 2025 because every cap brand we loved had become
+        a marketing company. We're four people in three cities making 200 of
+        each piece — by hand, with names, no algorithm.
+      </p>
+    </div>
+  </section>
+
+  {/* Story body */}
+  <section class="bg-black py-24 lg:py-32">
+    <div class="mx-auto grid max-w-[1600px] gap-12 px-6 lg:grid-cols-12 lg:px-10">
+      <div class="lg:col-span-5">
+        <div class="aspect-[3/4] overflow-hidden rounded-3xl bg-graphite">
+          <div
+            class="relative h-full w-full"
+            style="background: radial-gradient(circle at 30% 40%, #FFCC0070, #0a0a0a 70%);"
+          >
+            <div class="noise-overlay absolute inset-0 opacity-40"></div>
+            <div class="absolute inset-0 grid place-items-center">
+              <div
+                class="font-display text-bone/20"
+                style="font-size: 14vw; line-height: 0.85;"
+              >
+                AC
+              </div>
+            </div>
+            <div class="absolute bottom-6 left-6 font-mono text-xs tracking-widest text-bone/40">
+              BROOKLYN WORKSHOP · 2026
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-7 lg:pt-12">
+        <h2 class="font-display tracking-tight" style="font-size: clamp(2rem, 5vw, 5rem); line-height: 0.95;">
+          IT STARTED WITH A <span class="text-yellow italic">BAD CAP.</span>
+        </h2>
+        <div class="mt-8 space-y-6 text-bone/70">
+          <p>
+            Jesse bought a $90 snapback from a brand he'd loved for ten years.
+            The brim split after a month. The logo peeled. The lining unraveled.
+            The customer service told him "that's the look."
+          </p>
+          <p>
+            He called Mia, who'd been making one-off caps in Tokyo for the
+            local skate scene. They called Lars, who'd just left a German
+            wholesaler tired of mass production. They put $30,000 of their
+            savings into Drop 01 — 200 caps, four silhouettes, three cities of
+            workshops. Sold out in seventeen hours.
+          </p>
+          <p>
+            That was a year ago. We're on Drop 02 now. Same model: small
+            editions, hand-finished, names on the inside lining. The customer
+            isn't a "consumer." You're the kind of person who buys 200/200 and
+            wears it every day.
+          </p>
+        </div>
+
+        <div class="mt-12 grid grid-cols-2 gap-6 border-t border-bone/10 pt-8 lg:grid-cols-4">
+          <Stat label="DROPS SHIPPED" value="07" />
+          <Stat label="EDITIONS / DROP" value="200" />
+          <Stat label="WORKSHOPS" value="03" />
+          <Stat label="STILL SMALL" value="✓" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Values */}
+  <section class="bg-yellow py-24 noise-overlay lg:py-32">
+    <div class="mx-auto max-w-[1600px] px-6 lg:px-10">
+      <div class="mb-16 max-w-3xl">
+        <div class="mb-4 flex items-center gap-3 font-mono text-xs tracking-widest text-black/60">
+          <span class="block h-px w-12 bg-black"></span>
+          <span>HOW WE OPERATE</span>
+        </div>
+        <h2 class="font-display tracking-tight text-black" style="font-size: clamp(2.5rem, 7vw, 7rem); line-height: 0.9;">
+          FOUR RULES. <br />NO EXCEPTIONS.
+        </h2>
+      </div>
+
+      <div class="grid gap-px bg-black lg:grid-cols-2">
+        {values.map((v) => (
+          <div class="bg-yellow p-10 lg:p-14">
+            <span class="font-mono text-sm text-black/50">{v.kicker}</span>
+            <h3 class="mt-4 font-display text-3xl tracking-tight text-black lg:text-4xl">
+              {v.title}
+            </h3>
+            <p class="mt-4 text-black/70">{v.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Team */}
+  <section class="bg-black py-24 lg:py-32">
+    <div class="mx-auto max-w-[1600px] px-6 lg:px-10">
+      <div class="mb-16 flex items-end justify-between">
+        <div>
+          <div class="mb-4 flex items-center gap-3 font-mono text-xs tracking-widest text-bone/60">
+            <span class="block h-px w-12 bg-yellow"></span>
+            <span>THE PEOPLE</span>
+          </div>
+          <h2 class="font-display tracking-tight" style="font-size: clamp(2rem, 5vw, 5rem);">
+            FOUR <span class="italic text-yellow">HUMANS.</span>
+          </h2>
+        </div>
+        <span class="hidden font-mono text-xs tracking-widest text-bone/40 md:block">
+          ALL HAND-MAKERS · ALL SHAREHOLDERS
+        </span>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {team.map((m) => (
+          <div class="group" data-cursor="hover">
+            <div
+              class="relative aspect-[3/4] overflow-hidden rounded-2xl bg-graphite"
+            >
+              <div
+                class="absolute inset-0 transition-transform duration-700 group-hover:scale-110"
+                style={`background: radial-gradient(circle at 50% 40%, ${m.tone}50, #0a0a0a 70%);`}
+              ></div>
+              <div class="noise-overlay absolute inset-0 opacity-30"></div>
+              <div
+                class="absolute inset-0 grid place-items-center font-display text-bone/[0.12]"
+                style="font-size: 10vw;"
+              >
+                {m.name.split(" ").map((n) => n[0]).join("")}
+              </div>
+              <span class="absolute right-4 top-4 rounded-full border border-bone/20 bg-black/40 px-3 py-1 font-mono text-[10px] tracking-widest text-bone/70 backdrop-blur">
+                {m.city}
+              </span>
+            </div>
+            <h3 class="mt-4 font-display text-xl tracking-tight">{m.name}</h3>
+            <p class="text-xs uppercase tracking-widest text-bone/50">{m.role}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* CTA */}
+  <section class="bg-ink py-24 text-center lg:py-32">
+    <div class="mx-auto max-w-3xl px-6">
+      <h2
+        class="font-display tracking-tight"
+        style="font-size: clamp(2.5rem, 7vw, 7rem); line-height: 0.9;"
+      >
+        ENOUGH READING. <br />
+        <span class="text-yellow italic">SHOP A CAP.</span>
+      </h2>
+      <div class="mt-10 flex flex-wrap justify-center gap-3">
+        <Button href="/shop" variant="primary" size="lg" arrow>BROWSE THE DROP</Button>
+        <Button href="/stories" variant="outline" size="lg">READ MORE STORIES</Button>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,63 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { cn } from "@lib/cn";
+import { ArrowUpRight } from "lucide-react";
+
+type Variant = "primary" | "secondary" | "outline" | "ghost" | "brutal";
+type Size = "sm" | "md" | "lg" | "xl";
+
+interface Props extends HTMLAttributes<"a"> {
+  variant?: Variant;
+  size?: Size;
+  href?: string;
+  arrow?: boolean;
+  type?: "button" | "submit" | "reset";
+  class?: string;
+}
+
+const {
+  variant = "primary",
+  size = "md",
+  href,
+  arrow = false,
+  type = "button",
+  class: className,
+  ...rest
+} = Astro.props;
+
+const base =
+  "group relative inline-flex items-center justify-center gap-2 font-display tracking-widest uppercase transition-all duration-300 overflow-hidden whitespace-nowrap";
+
+const variants: Record<Variant, string> = {
+  primary:
+    "bg-yellow text-black hover:bg-bone hover:scale-[1.02] active:scale-[0.98]",
+  secondary: "bg-bone text-black hover:bg-yellow",
+  outline:
+    "border border-bone/30 text-bone hover:border-yellow hover:text-yellow hover:bg-yellow/5",
+  ghost: "text-bone hover:text-yellow",
+  brutal:
+    "bg-yellow text-black border-2 border-black shadow-brutal hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_0_#0a0a0a]",
+};
+
+const sizes: Record<Size, string> = {
+  sm: "h-9 px-4 text-xs rounded-full",
+  md: "h-12 px-6 text-sm rounded-full",
+  lg: "h-14 px-8 text-sm rounded-full",
+  xl: "h-16 px-10 text-base rounded-full",
+};
+
+const classes = cn(base, variants[variant], sizes[size], className);
+const Tag = href ? "a" : "button";
+---
+
+<Tag class={classes} href={href} type={!href ? type : undefined} data-cursor="hover" {...rest}>
+  <span class="relative z-10 flex items-center gap-2">
+    <slot />
+    {arrow && (
+      <ArrowUpRight
+        size={size === "sm" ? 14 : 16}
+        class="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+      />
+    )}
+  </span>
+</Tag>

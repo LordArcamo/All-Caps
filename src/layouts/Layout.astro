@@ -1,0 +1,82 @@
+---
+import "@styles/global.css";
+import Nav from "@components/Nav.astro";
+import Footer from "@components/Footer.astro";
+import SmoothScroll from "@components/SmoothScroll.tsx";
+import Cursor from "@components/Cursor.tsx";
+import CartDrawer from "@components/react/CartDrawer.tsx";
+import { SITE } from "@data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noNav?: boolean;
+  noFooter?: boolean;
+}
+
+const {
+  title,
+  description = SITE.description,
+  image = "/og-image.jpg",
+  noNav = false,
+  noFooter = false,
+} = Astro.props;
+
+const pageTitle = title ? `${title} — ${SITE.name}` : `${SITE.name} — ${SITE.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://allcaps.example.com");
+---
+
+<!doctype html>
+<html lang="en" class="bg-black text-bone antialiased">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#0A0A0A" />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:url" content={canonical} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+
+  <body class="min-h-screen bg-black text-bone selection:bg-yellow selection:text-black">
+    <SmoothScroll client:idle />
+    <Cursor client:idle />
+    <CartDrawer client:idle />
+
+    {!noNav && <Nav />}
+
+    <main id="main">
+      <slot />
+    </main>
+
+    {!noFooter && <Footer />}
+
+    <style>
+      html {
+        cursor: none;
+      }
+      @media (pointer: coarse) {
+        html {
+          cursor: auto;
+        }
+      }
+    </style>
+  </body>
+</html>

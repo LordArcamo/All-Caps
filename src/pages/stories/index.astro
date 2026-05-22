@@ -1,0 +1,189 @@
+---
+import Layout from "@layouts/Layout.astro";
+
+const stories = [
+  {
+    tag: "MAKING",
+    title: "Inside the Brooklyn workshop: every stitch, named.",
+    excerpt:
+      "We spent a day on Bedford Ave with the team that hand-finishes every cap. Yes, every cap. Yes, by hand.",
+    date: "MAY 12, 2026",
+    read: "6 MIN",
+    tone: "#FFCC00",
+    slug: "brooklyn-workshop",
+    featured: true,
+  },
+  {
+    tag: "CULTURE",
+    title: "The cap is the new t-shirt. Here's why.",
+    excerpt:
+      "Headwear became the canvas for self-expression in 2024. We talked to four stylists about what's next.",
+    date: "APR 28, 2026",
+    read: "4 MIN",
+    tone: "#FF2D2D",
+    slug: "cap-is-the-new-tee",
+  },
+  {
+    tag: "DROP",
+    title: "Drop 02 — the photo diary.",
+    excerpt:
+      "Backstage shots, mood boards, and the cut conversations that didn't make the final lineup.",
+    date: "APR 18, 2026",
+    read: "3 MIN",
+    tone: "#3A3F45",
+    slug: "drop-02-diary",
+  },
+  {
+    tag: "INTERVIEW",
+    title: "Mia Takeuchi on Tokyo workshop culture.",
+    excerpt:
+      "Our head of design unpacks why slow, small-batch construction is the only way to make a cap that lasts.",
+    date: "APR 02, 2026",
+    read: "8 MIN",
+    tone: "#D9C9A8",
+    slug: "mia-takeuchi",
+  },
+  {
+    tag: "CULTURE",
+    title: "The death of the influencer cap.",
+    excerpt:
+      "Why we don't gift to influencers, why we don't run paid partnerships, and why our growth is still going up.",
+    date: "MAR 19, 2026",
+    read: "5 MIN",
+    tone: "#5A6048",
+    slug: "death-of-influencer-cap",
+  },
+  {
+    tag: "MAKING",
+    title: "What's in a heavy-twill cap that lasts ten years?",
+    excerpt:
+      "Materials science meets workshop craft. We break down every layer of a Void Runner snapback.",
+    date: "MAR 05, 2026",
+    read: "7 MIN",
+    tone: "#FFCC00",
+    slug: "heavy-twill-deep-dive",
+  },
+];
+
+const featured = stories.find((s) => s.featured) ?? stories[0];
+const rest = stories.filter((s) => s.slug !== featured?.slug);
+---
+
+<Layout
+  title="Stories"
+  description="Field notes, interviews, and behind-the-scenes from the ALL CAPS workshops in Brooklyn, Tokyo, and Berlin."
+>
+  {/* Hero */}
+  <section class="relative overflow-hidden bg-black pt-40 pb-20">
+    <div class="relative mx-auto max-w-[1600px] px-6 lg:px-10">
+      <div class="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-bone/60">
+        <span class="block h-px w-12 bg-yellow"></span>
+        <span>JOURNAL — VOL. 02</span>
+      </div>
+      <h1
+        class="font-display tracking-tight"
+        style="font-size: clamp(3rem, 11vw, 11rem); line-height: 0.85;"
+      >
+        <span class="block">FIELD</span>
+        <span class="block text-yellow italic">NOTES.</span>
+      </h1>
+      <p class="mt-8 max-w-xl text-lg text-bone/60">
+        From inside the workshops, the trips, the cut conversations. Long-form
+        writing about caps, culture, and craft.
+      </p>
+    </div>
+  </section>
+
+  {/* Featured */}
+  <section class="bg-black pb-16">
+    <div class="mx-auto max-w-[1600px] px-6 lg:px-10">
+      {featured && (
+        <a
+          href={`/stories/${featured.slug}`}
+          class="group relative grid overflow-hidden rounded-3xl bg-graphite lg:grid-cols-2"
+          data-cursor="hover"
+        >
+          <div class="relative aspect-[4/3] lg:aspect-auto">
+            <div
+              class="absolute inset-0 transition-transform duration-1000 group-hover:scale-105"
+              style={`background: radial-gradient(circle at 30% 30%, ${featured.tone}60, #0a0a0a 70%);`}
+            ></div>
+            <div class="noise-overlay absolute inset-0 opacity-30"></div>
+            <div
+              class="absolute inset-0 grid place-items-center font-display text-bone/[0.08]"
+              style="font-size: 14vw; line-height: 0.85;"
+            >
+              {featured.tag}
+            </div>
+            <span class="absolute left-6 top-6 rounded-full bg-yellow px-3 py-1 font-display text-[10px] tracking-widest text-black">
+              FEATURED
+            </span>
+          </div>
+          <div class="flex flex-col justify-center p-10 lg:p-16">
+            <div class="flex items-center gap-3 font-mono text-[10px] tracking-widest text-bone/40">
+              <span>{featured.tag}</span>
+              <span>·</span>
+              <span>{featured.date}</span>
+              <span>·</span>
+              <span>{featured.read} READ</span>
+            </div>
+            <h2
+              class="mt-6 font-display tracking-tight transition-colors group-hover:text-yellow"
+              style="font-size: clamp(2rem, 4vw, 4rem); line-height: 1;"
+            >
+              {featured.title}
+            </h2>
+            <p class="mt-6 text-bone/60">{featured.excerpt}</p>
+            <div class="mt-8 inline-flex items-center gap-2 font-display text-sm tracking-widest text-yellow">
+              <span>READ THE STORY</span>
+              <span class="transition-transform group-hover:translate-x-1">→</span>
+            </div>
+          </div>
+        </a>
+      )}
+    </div>
+  </section>
+
+  {/* Grid */}
+  <section class="bg-black pb-32">
+    <div class="mx-auto max-w-[1600px] px-6 lg:px-10">
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {rest.map((s) => (
+          <a
+            href={`/stories/${s.slug}`}
+            class="group flex flex-col gap-4 overflow-hidden rounded-2xl border border-bone/10 bg-black p-6 transition-all hover:border-yellow/40 hover:bg-graphite"
+            data-cursor="hover"
+          >
+            <div
+              class="relative aspect-[4/3] overflow-hidden rounded-xl"
+              style={`background: linear-gradient(135deg, ${s.tone}30, #0a0a0a 70%);`}
+            >
+              <div class="noise-overlay absolute inset-0 opacity-30"></div>
+              <div
+                class="absolute inset-0 grid place-items-center font-display text-bone/[0.08]"
+                style="font-size: 6vw;"
+              >
+                {s.tag}
+              </div>
+            </div>
+            <div class="flex items-center gap-3 font-mono text-[10px] tracking-widest text-bone/40">
+              <span>{s.tag}</span>
+              <span>·</span>
+              <span>{s.date}</span>
+              <span>·</span>
+              <span>{s.read}</span>
+            </div>
+            <h3 class="font-display text-xl leading-tight tracking-tight transition-colors group-hover:text-yellow">
+              {s.title}
+            </h3>
+            <p class="line-clamp-3 text-sm text-bone/60">{s.excerpt}</p>
+            <div class="mt-auto flex items-center gap-2 text-xs font-display tracking-widest text-bone/60 transition-colors group-hover:text-yellow">
+              <span>READ</span>
+              <span class="transition-transform group-hover:translate-x-1">→</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

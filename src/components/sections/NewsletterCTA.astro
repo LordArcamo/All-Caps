@@ -1,0 +1,86 @@
+---
+import Button from "@components/ui/Button.astro";
+---
+
+<section
+  class="relative overflow-hidden bg-black py-32 lg:py-48"
+  data-section="newsletter"
+>
+  {/* Big background type */}
+  <div
+    class="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden"
+    aria-hidden="true"
+  >
+    <div
+      class="font-display whitespace-nowrap text-yellow/[0.06]"
+      style="font-size: clamp(10rem, 28vw, 30rem); letter-spacing: -0.04em; line-height: 0.85;"
+      data-news-bg
+    >
+      ALL CAPS
+    </div>
+  </div>
+
+  {/* Yellow strip */}
+  <div
+    class="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 bg-yellow"
+    style="height: 1px;"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="relative mx-auto max-w-[1100px] px-6 text-center">
+    <div class="mb-6 flex items-center justify-center gap-3 font-mono text-xs tracking-widest text-bone/60">
+      <span class="block h-px w-12 bg-yellow"></span>
+      <span>FIRST IN LINE</span>
+      <span class="block h-px w-12 bg-yellow"></span>
+    </div>
+
+    <h2
+      class="font-display leading-[0.9] tracking-tight"
+      style="font-size: clamp(3rem, 9vw, 9rem);"
+    >
+      <span class="block">JOIN THE</span>
+      <span class="block text-yellow italic">DROP LIST.</span>
+    </h2>
+
+    <p class="mx-auto mt-8 max-w-md text-bone/60">
+      We email when drops go live. That's it. No "5 ways to style your cap" newsletters. You're welcome.
+    </p>
+
+    <form class="mx-auto mt-10 flex max-w-lg flex-col gap-3 sm:flex-row">
+      <input
+        type="email"
+        placeholder="you@somewhere.com"
+        required
+        class="flex-1 rounded-full border border-bone/20 bg-bone/5 px-6 py-4 text-sm text-bone placeholder:text-bone/40 focus:border-yellow focus:outline-none"
+      />
+      <Button type="submit" variant="primary" size="lg" arrow>GET IN</Button>
+    </form>
+
+    <p class="mt-4 text-xs text-bone/40">
+      One click out, anytime. We hate spam more than you do.
+    </p>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.fromTo(
+    "[data-news-bg]",
+    { x: "-3vw" },
+    {
+      x: "3vw",
+      ease: "none",
+      scrollTrigger: {
+        trigger: "[data-section='newsletter']",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+      },
+    },
+  );
+</script>

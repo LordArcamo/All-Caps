@@ -1,0 +1,29 @@
+---
+interface Props {
+  speed?: number;
+  reverse?: boolean;
+  class?: string;
+  textClass?: string;
+}
+const {
+  speed = 30,
+  reverse = false,
+  class: className = "",
+  textClass = "",
+} = Astro.props;
+const animDir = reverse ? "reverse" : "normal";
+---
+
+<div class:list={["overflow-hidden w-full", className]}>
+  <div
+    class="marquee-track flex gap-12 whitespace-nowrap"
+    style={`animation-duration: ${speed}s; animation-direction: ${animDir};`}
+  >
+    <div class:list={["flex items-center gap-12", textClass]}>
+      <slot />
+    </div>
+    <div class:list={["flex items-center gap-12", textClass]} aria-hidden="true">
+      <slot />
+    </div>
+  </div>
+</div>

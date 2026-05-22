@@ -1,0 +1,44 @@
+---
+import Layout from "@layouts/Layout.astro";
+import ShopGrid from "@components/react/ShopGrid.tsx";
+---
+
+<Layout
+  title="Shop all caps"
+  description="Every drop, every silhouette. Snapbacks, fitteds, dad caps, beanies, truckers. ALL CAPS — built in limited runs."
+>
+  <section class="relative overflow-hidden bg-black pt-40 pb-20">
+    {/* Background blob */}
+    <div
+      class="pointer-events-none absolute -top-40 left-1/2 h-[80vh] w-[80vh] -translate-x-1/2 rounded-full opacity-25 blur-[100px]"
+      style="background: radial-gradient(circle, #FFCC00 0%, transparent 70%);"
+      aria-hidden="true"
+    ></div>
+
+    <div class="relative mx-auto max-w-[1600px] px-6 lg:px-10">
+      <div class="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-bone/60">
+        <span class="block h-px w-12 bg-yellow"></span>
+        <span>SHOP — ALL EDITIONS</span>
+      </div>
+      <h1
+        class="font-display tracking-tight"
+        style="font-size: clamp(3rem, 10vw, 10rem); line-height: 0.85;"
+      >
+        <span class="block">EVERY</span>
+        <span class="block text-yellow italic">CAP.</span>
+        <span class="block text-stroke">ON ONE PAGE.</span>
+      </h1>
+      <p class="mt-8 max-w-md text-bone/60">
+        All editions, all silhouettes. Filter by category, sort by price,
+        sliders that actually do something. No "newsletter unlock" gates — just
+        product.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-black pb-32">
+    <div class="mx-auto max-w-[1600px] px-6 lg:px-10">
+      <ShopGrid client:load />
+    </div>
+  </section>
+</Layout>

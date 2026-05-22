@@ -1,0 +1,96 @@
+---
+import Pillar from "@components/Pillar.astro";
+
+const lines = [
+  { text: "WE DON'T DO QUIET.", emphasis: false },
+  { text: "WE DON'T DO BASIC.", emphasis: false },
+  { text: "WE DO LOUD.", emphasis: true },
+  { text: "WE DO LIMITED.", emphasis: false },
+  { text: "WE DO ALL CAPS.", emphasis: true },
+];
+---
+
+<section
+  class="relative overflow-hidden bg-yellow py-32 lg:py-48"
+  data-section="manifesto"
+>
+  <div class="pointer-events-none absolute inset-0 noise-overlay opacity-20"></div>
+
+  {/* Background marquee */}
+  <div
+    class="pointer-events-none absolute inset-0 flex items-center overflow-hidden opacity-[0.06]"
+    aria-hidden="true"
+  >
+    <div
+      class="marquee-track flex gap-12 whitespace-nowrap font-display"
+      style="font-size: clamp(8rem, 16vw, 16rem); animation-duration: 80s;"
+    >
+      <span>ALL CAPS · MAKE IT LOUD ·</span>
+      <span>ALL CAPS · MAKE IT LOUD ·</span>
+    </div>
+  </div>
+
+  <div class="relative mx-auto max-w-[1600px] px-6 lg:px-10">
+    <div class="mb-12 flex items-center gap-3 font-mono text-xs tracking-widest text-black/70">
+      <span class="block h-px w-12 bg-black"></span>
+      <span>THE MANIFESTO</span>
+    </div>
+
+    <div
+      class="font-display leading-[0.95] tracking-tight text-black"
+      style="font-size: clamp(2.5rem, 9vw, 9rem);"
+    >
+      {lines.map((line) => (
+        <div class="overflow-hidden">
+          <div
+            class={line.emphasis ? "italic" : ""}
+            data-manifesto-line
+            style={line.emphasis ? "color: #FF2D2D;" : ""}
+          >
+            {line.text}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-16 grid gap-6 border-t-2 border-black pt-12 lg:grid-cols-3">
+      <Pillar
+        kicker="01"
+        title="Made small, on purpose."
+        body="We cap every drop at 200 units. Sold out beats overstocked. Every time."
+      />
+      <Pillar
+        kicker="02"
+        title="Built to outlast trends."
+        body="Heavy twill, hand-stitched logos, sweatbands that hold up. Year three, year five — still your favorite."
+      />
+      <Pillar
+        kicker="03"
+        title="Pay the people who make it."
+        body="Living wage. Fair contracts. Brooklyn, Tokyo, Berlin — every workshop visited, every name known."
+      />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.fromTo(
+    "[data-manifesto-line]",
+    { y: "110%" },
+    {
+      y: "0%",
+      duration: 1.0,
+      ease: "expo.out",
+      stagger: 0.08,
+      scrollTrigger: {
+        trigger: "[data-section='manifesto']",
+        start: "top 70%",
+      },
+    },
+  );
+</script>
