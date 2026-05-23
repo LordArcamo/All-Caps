@@ -1,0 +1,46 @@
+---
+import { Package, MapPin, CreditCard, Bell, Settings } from "lucide-react";
+
+interface Props {
+  icon: "orders" | "address" | "payment" | "alerts" | "settings";
+  label: string;
+  count?: number;
+  active?: boolean;
+}
+const { icon, label, count, active = false } = Astro.props;
+
+const Icon = {
+  orders: Package,
+  address: MapPin,
+  payment: CreditCard,
+  alerts: Bell,
+  settings: Settings,
+}[icon];
+---
+
+<a
+  href={`#${icon}`}
+  class:list={[
+    "flex items-center justify-between rounded-xl px-3 py-2.5 font-mono text-[11px] tracking-widest transition-colors",
+    active
+      ? "bg-yellow/10 text-yellow"
+      : "text-bone/60 hover:bg-bone/5 hover:text-bone",
+  ]}
+>
+  <span class="flex items-center gap-3">
+    <Icon size={14} />
+    {label}
+  </span>
+  {
+    count !== undefined && (
+      <span
+        class:list={[
+          "rounded-full px-2 py-0.5 font-display text-[10px]",
+          active ? "bg-yellow text-black" : "bg-bone/10 text-bone/60",
+        ]}
+      >
+        {String(count).padStart(2, "0")}
+      </span>
+    )
+  }
+</a>

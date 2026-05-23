@@ -1,0 +1,62 @@
+---
+import DropCountdown from "@components/react/DropCountdown.tsx";
+import Button from "@components/ui/Button.astro";
+
+// Calculate target date: 30 days from "now" so the countdown always shows time
+const target = new Date(Date.now() + 31 * 24 * 60 * 60 * 1000 + 8 * 3600 * 1000).toISOString();
+---
+
+<section
+  class="relative overflow-hidden border-y border-yellow/20 bg-yellow noise-overlay"
+  data-section="countdown"
+>
+  {/* Background pattern */}
+  <div
+    class="pointer-events-none absolute inset-0 opacity-10"
+    style="background-image: linear-gradient(135deg, transparent 48%, #0a0a0a 48% 52%, transparent 52%); background-size: 24px 24px;"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="relative mx-auto grid max-w-[1600px] gap-8 px-6 py-12 lg:grid-cols-12 lg:items-center lg:gap-12 lg:px-10 lg:py-16">
+    {/* Left: badge + title */}
+    <div class="lg:col-span-4">
+      <div class="mb-4 flex items-center gap-3 font-mono text-xs tracking-widest text-black/60">
+        <span class="flex h-2 w-2">
+          <span class="relative inline-flex h-2 w-2 animate-ping rounded-full bg-red"></span>
+          <span class="absolute h-2 w-2 rounded-full bg-red"></span>
+        </span>
+        <span>UPCOMING — DROP 03</span>
+      </div>
+      <h2
+        class="font-display tracking-tight text-black"
+        style="font-size: clamp(2rem, 4.5vw, 4rem); line-height: 0.9;"
+      >
+        IT'S<br/>
+        <span class="italic">ALMOST.</span>
+      </h2>
+    </div>
+
+    {/* Center: countdown */}
+    <div class="lg:col-span-5">
+      <div
+        class="rounded-3xl border-2 border-black/80 bg-black/95 p-6 lg:p-8"
+        style="box-shadow: 8px 8px 0 0 #0a0a0a;"
+      >
+        <DropCountdown
+          client:visible
+          target={target}
+          label="DROP 03 GOES LIVE IN"
+        />
+      </div>
+    </div>
+
+    {/* Right: CTA */}
+    <div class="lg:col-span-3">
+      <p class="mb-4 text-sm leading-relaxed text-black/80">
+        Insiders get 24-hour early access. Drop your email and skip the queue.
+      </p>
+      <Button href="#newsletter" variant="brutal" size="lg" arrow>JOIN THE LIST</Button>
+    </div>
+  </div>
+</section>

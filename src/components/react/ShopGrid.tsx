@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
-import { ArrowUpRight, ChevronDown, Heart } from "lucide-react";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { PRODUCTS, CATEGORIES, type Product, type ProductCategory } from "@/data/products";
 import { cn } from "@/lib/cn";
+import WishlistHeart from "./WishlistHeart";
 
 type SortKey = "featured" | "price-asc" | "price-desc" | "newest";
 
@@ -181,15 +182,11 @@ function ShopCard({ product, index }: { product: Product; index: number }) {
           )}
         </div>
 
-        <button
-          className="absolute right-4 top-4 z-10 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-bone/80 opacity-0 backdrop-blur transition-all hover:text-red group-hover:opacity-100"
-          aria-label="Save to wishlist"
-          onClick={(e) => {
-            e.preventDefault();
-          }}
+        <div
+          className="absolute right-4 top-4 z-10 grid h-9 w-9 place-items-center rounded-full bg-black/60 backdrop-blur transition-all"
         >
-          <Heart size={14} />
-        </button>
+          <WishlistHeart product={product} size={14} />
+        </div>
 
         {hasGeneratedHero ? (
           <img

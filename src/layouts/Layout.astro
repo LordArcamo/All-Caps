@@ -1,5 +1,6 @@
 ---
 import "@styles/global.css";
+import { ClientRouter } from "astro:transitions";
 import Nav from "@components/Nav.astro";
 import Footer from "@components/Footer.astro";
 import SmoothScroll from "@components/SmoothScroll.tsx";
@@ -7,6 +8,8 @@ import Cursor from "@components/Cursor.tsx";
 import CartDrawer from "@components/react/CartDrawer.tsx";
 import CommandPalette from "@components/react/CommandPalette.tsx";
 import ChatWidget from "@components/react/ChatWidget.tsx";
+import ToastHost from "@components/react/ToastHost.tsx";
+import SizeGuideModal from "@components/react/SizeGuideModal.tsx";
 import { SITE } from "@data/site";
 
 interface Props {
@@ -55,6 +58,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://allcaps.exa
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <ClientRouter />
   </head>
 
   <body class="min-h-screen bg-black text-bone selection:bg-yellow selection:text-black">
@@ -63,6 +68,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://allcaps.exa
     <CartDrawer client:idle />
     <CommandPalette client:idle />
     <ChatWidget client:idle />
+    <ToastHost client:idle />
+    <SizeGuideModal client:idle />
 
     {!noNav && <Nav />}
 

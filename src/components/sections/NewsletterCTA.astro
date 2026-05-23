@@ -1,6 +1,7 @@
 ---
 import Button from "@components/ui/Button.astro";
 import SpotlightBackground from "@components/react/SpotlightBackground.tsx";
+import SparkleText from "@components/react/SparkleText.tsx";
 ---
 
 <section
@@ -43,7 +44,9 @@ import SpotlightBackground from "@components/react/SpotlightBackground.tsx";
       style="font-size: clamp(3rem, 9vw, 9rem);"
     >
       <span class="block">JOIN THE</span>
-      <span class="block text-yellow italic">DROP LIST.</span>
+      <SparkleText client:visible color="#FFCC00" count={10} className="block text-yellow italic">
+        DROP LIST.
+      </SparkleText>
     </h2>
 
     <p class="mx-auto mt-8 max-w-md text-bone/60">

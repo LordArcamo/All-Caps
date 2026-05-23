@@ -1,0 +1,31 @@
+---
+import Layout from "@layouts/Layout.astro";
+import WishlistPage from "@components/react/WishlistPage.tsx";
+---
+
+<Layout
+  title="Your wishlist"
+  description="Caps you've saved for later."
+>
+  <section class="relative bg-black pt-40 pb-12">
+    <div class="mx-auto max-w-[1100px] px-6 lg:px-10">
+      <div class="mb-4 flex items-center gap-3 font-mono text-xs tracking-widest text-bone/60">
+        <span class="block h-px w-12 bg-yellow"></span>
+        <span>YOUR LIST</span>
+      </div>
+      <h1
+        class="font-display tracking-tight"
+        style="font-size: clamp(3rem, 9vw, 9rem); line-height: 0.85;"
+      >
+        <span class="block">YOUR</span>
+        <span class="block text-red italic">WISHLIST.</span>
+      </h1>
+    </div>
+  </section>
+
+  <section class="bg-black pb-32">
+    <div class="mx-auto max-w-[1100px] px-6 lg:px-10">
+      <WishlistPage client:load />
+    </div>
+  </section>
+</Layout>

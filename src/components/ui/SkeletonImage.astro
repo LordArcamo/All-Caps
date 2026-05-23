@@ -1,0 +1,36 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  fallbackColor?: string;
+  class?: string;
+  loading?: "lazy" | "eager";
+}
+const { src, alt, fallbackColor = "#FFCC00", class: className = "", loading = "lazy" } = Astro.props;
+---
+
+<div class:list={["relative overflow-hidden", className]}>
+  {/* Skeleton (visible while loading) */}
+  <div
+    class="absolute inset-0 animate-pulse"
+    style={`background: linear-gradient(135deg, ${fallbackColor}30, #0a0a0a 70%);`}
+    aria-hidden="true"
+    data-skeleton
+  >
+    <div class="absolute inset-0 opacity-50" style="background-image: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); background-size: 200% 100%; animation: shimmer 2s linear infinite;"></div>
+  </div>
+  <img
+    src={src}
+    alt={alt}
+    loading={loading}
+    class="relative h-full w-full object-cover opacity-0 transition-opacity duration-500"
+    onload="this.style.opacity=1; this.previousElementSibling?.remove();"
+  />
+</div>
+
+<style is:global>
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+</style>

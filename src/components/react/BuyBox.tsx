@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { ArrowUpRight, Heart, ShieldCheck, Truck, Undo2 } from "lucide-react";
+import { ArrowUpRight, ShieldCheck, Truck, Undo2 } from "lucide-react";
 import type { Product } from "@/data/products";
 import { cart } from "@/lib/cart";
+import WishlistHeart from "./WishlistHeart";
+import StockIndicator from "./StockIndicator";
 
 interface Props {
   product: Product;
@@ -11,7 +13,6 @@ export default function BuyBox({ product }: Props) {
   const [colorIdx, setColorIdx] = useState(0);
   const [size, setSize] = useState(product.sizes[0] ?? "");
   const [qty, setQty] = useState(1);
-  const [bumped, setBumped] = useState(false);
 
   const color = product.colors[colorIdx];
 
@@ -27,8 +28,11 @@ export default function BuyBox({ product }: Props) {
       qty,
       image: product.images[0]?.src ?? "",
     });
-    setBumped(true);
-    setTimeout(() => setBumped(false), 1200);
+  };
+
+  const openSizeGuide = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.dispatchEvent(new CustomEvent("sizeguide:open"));
   };
 
   return (
@@ -73,6 +77,11 @@ export default function BuyBox({ product }: Props) {
         )}
       </div>
 
+      {/* Stock indicator */}
+      {!product.soldOut && (
+        <StockIndicator seed={product.slug} total={200} />
+      )}
+
       <p className="max-w-md text-sm leading-relaxed text-bone/70">
         {product.description}
       </p>
@@ -114,9 +123,12 @@ export default function BuyBox({ product }: Props) {
             <span className="font-display text-xs tracking-widest text-bone/60">
               SIZE
             </span>
-            <a href="/sizing" className="text-xs text-yellow hover:underline">
+            <button
+              onClick={openSizeGuide}
+              className="text-xs text-yellow hover:underline"
+            >
               Size guide →
-            </a>
+            </button>
           </div>
           <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
             {product.sizes.map((s) => (
@@ -163,14 +175,12 @@ export default function BuyBox({ product }: Props) {
           className={`group flex flex-1 items-center justify-center gap-2 rounded-full px-8 font-display text-sm tracking-widest transition-all ${
             product.soldOut
               ? "cursor-not-allowed bg-bone/10 text-bone/40"
-              : bumped
-                ? "bg-yellow text-black"
-                : "bg-yellow text-black hover:scale-[1.02] active:scale-[0.98]"
+              : "bg-yellow text-black hover:scale-[1.02] active:scale-[0.98]"
           }`}
           data-cursor="hover"
         >
-          {product.soldOut ? "SOLD OUT" : bumped ? "ADDED ✓" : "ADD TO BAG"}
-          {!product.soldOut && !bumped && (
+          {product.soldOut ? "SOLD OUT" : "ADD TO BAG"}
+          {!product.soldOut && (
             <ArrowUpRight
               size={16}
               className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
@@ -178,12 +188,9 @@ export default function BuyBox({ product }: Props) {
           )}
         </button>
 
-        <button
-          className="grid h-12 w-12 place-items-center rounded-full border border-bone/20 text-bone/60 transition-all hover:border-yellow hover:text-yellow"
-          aria-label="Save to wishlist"
-        >
-          <Heart size={18} />
-        </button>
+        <div className="grid h-12 w-12 place-items-center rounded-full border border-bone/20 transition-all hover:border-red">
+          <WishlistHeart product={product} size={18} />
+        </div>
       </div>
 
       {/* Trust badges */}

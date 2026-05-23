@@ -46,7 +46,22 @@ export const cart = {
       items.push({ ...item, qty: item.qty ?? 1 });
     }
     save(items);
-    window.dispatchEvent(new CustomEvent("cart:open"));
+    // Push toast instead of auto-opening drawer
+    window.dispatchEvent(
+      new CustomEvent("toast:push", {
+        detail: {
+          id: Date.now(),
+          kind: "success",
+          title: `${item.name} · ADDED`,
+          body: `${item.color}${item.size ? ` · ${item.size}` : ""}`,
+          color: item.colorHex,
+          image: item.image,
+          duration: 4500,
+          href: "#",
+          hrefLabel: "VIEW BAG",
+        },
+      }),
+    );
   },
   remove(slug: string, color: string, size: string) {
     const items = load().filter(

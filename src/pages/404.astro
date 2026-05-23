@@ -1,0 +1,140 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Button from "@components/ui/Button.astro";
+import { PRODUCTS } from "@data/products";
+
+const recoSlugs = ["void-runner", "halo-snap", "neon-trucker"];
+const recos = recoSlugs
+  .map((s) => PRODUCTS.find((p) => p.slug === s))
+  .filter(Boolean);
+---
+
+<Layout title="404 — Off the map" description="This page got lost in the warehouse.">
+  <section class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-black pt-32 pb-20">
+    {/* Background big-ass 404 */}
+    <div
+      class="pointer-events-none absolute inset-0 grid place-items-center"
+      aria-hidden="true"
+    >
+      <div
+        class="font-display text-bone/[0.04] leading-[0.8]"
+        style="font-size: clamp(20rem, 65vw, 65rem); letter-spacing: -0.04em;"
+        data-404-bg
+      >
+        404
+      </div>
+    </div>
+
+    {/* Falling caps backdrop */}
+    <div
+      class="pointer-events-none absolute inset-0 overflow-hidden"
+      aria-hidden="true"
+    >
+      {Array.from({ length: 14 }).map((_, i) => {
+        const left = (i * 7.1 + 4) % 100;
+        const delay = (i * 0.7) % 6;
+        const dur = 8 + ((i * 1.3) % 7);
+        const size = 30 + ((i * 11) % 50);
+        const opacity = 0.05 + ((i * 0.07) % 0.18);
+        return (
+          <div
+            class="absolute"
+            style={`left: ${left}%; top: -10%; opacity: ${opacity}; animation: fall ${dur}s linear ${delay}s infinite;`}
+          >
+            <svg viewBox="0 0 120 80" width={size} height={size * (80 / 120)}>
+              <path d="M10 50 L30 15 L50 15 L70 50 Z" fill="#FFCC00" />
+              <path
+                d="M30 50 Q60 60 110 50 Q100 65 60 70 Q25 65 10 55 Z"
+                fill="#FFCC00"
+              />
+            </svg>
+          </div>
+        );
+      })}
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-3xl px-6 text-center">
+      <div class="mb-6 inline-flex items-center gap-3 rounded-full border border-red/40 bg-red/5 px-4 py-1.5">
+        <span class="block h-2 w-2 animate-pulse rounded-full bg-red"></span>
+        <span class="font-mono text-[10px] tracking-widest text-red">
+          404 — DEAD END
+        </span>
+      </div>
+
+      <h1
+        class="font-display tracking-tight"
+        style="font-size: clamp(3rem, 9vw, 9rem); line-height: 0.85;"
+      >
+        <span class="block">OFF THE</span>
+        <span class="block text-yellow italic">MAP.</span>
+      </h1>
+
+      <p class="mx-auto mt-8 max-w-md text-lg leading-relaxed text-bone/70">
+        This page either didn't survive Drop 01, never existed, or you typed
+        something weird. No judgment.
+      </p>
+
+      <div class="mt-10 flex flex-wrap justify-center gap-3">
+        <Button href="/" variant="primary" size="lg" arrow>BACK TO HOME</Button>
+        <Button href="/shop" variant="outline" size="lg">BROWSE THE DROP</Button>
+      </div>
+
+      {/* Recos */}
+      <div class="mt-20">
+        <p class="mb-6 font-mono text-[10px] tracking-widest text-bone/40">
+          OR TRY ONE OF THESE
+        </p>
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {recos.map((p) => p && (
+            <a
+              href={`/product/${p.slug}`}
+              class="group relative overflow-hidden rounded-2xl border border-bone/10 bg-ink/60 p-5 transition-all hover:border-yellow hover:bg-graphite"
+              data-cursor="hover"
+            >
+              <div
+                class="mx-auto h-24 w-24 rounded-xl"
+                style={`background: radial-gradient(circle, ${p.colors[0]?.hex}50, #0a0a0a 80%);`}
+              >
+                <div class="grid h-full w-full place-items-center">
+                  <svg viewBox="0 0 120 80" class="h-12 w-auto">
+                    <path d="M10 50 L30 15 L50 15 L70 50 Z" fill="#0A0A0A" />
+                    <path
+                      d="M30 50 Q60 60 110 50 Q100 65 60 70 Q25 65 10 55 Z"
+                      fill={p.colors[0]?.hex ?? "#FFCC00"}
+                    />
+                  </svg>
+                </div>
+              </div>
+              <p class="mt-4 font-display text-lg tracking-tight transition-colors group-hover:text-yellow">
+                {p.name}
+              </p>
+              <p class="mt-1 text-xs text-bone/50">${p.price}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style is:global>
+  @keyframes fall {
+    from {
+      transform: translateY(-20vh) rotate(-12deg);
+    }
+    to {
+      transform: translateY(120vh) rotate(348deg);
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  gsap.to("[data-404-bg]", {
+    backgroundPosition: "200% 0",
+    duration: 8,
+    ease: "none",
+    repeat: -1,
+  });
+</script>

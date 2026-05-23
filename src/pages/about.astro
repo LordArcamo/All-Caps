@@ -3,6 +3,8 @@ import Layout from "@layouts/Layout.astro";
 import Button from "@components/ui/Button.astro";
 import Stat from "@components/Stat.astro";
 import SpotlightBackground from "@components/react/SpotlightBackground.tsx";
+import SparkleText from "@components/react/SparkleText.tsx";
+import Timeline from "@components/sections/Timeline.astro";
 
 const team = [
   {
@@ -10,24 +12,28 @@ const team = [
     role: "FOUNDER · CREATIVE DIRECTOR",
     city: "BROOKLYN",
     tone: "#FFCC00",
+    quote: "If we're not arguing about it, it's not worth making.",
   },
   {
     name: "MIA TAKEUCHI",
     role: "HEAD OF DESIGN",
     city: "TOKYO",
     tone: "#FF2D2D",
+    quote: "The work is invisible. The result isn't.",
   },
   {
     name: "LARS WEBER",
     role: "PRODUCTION LEAD",
     city: "BERLIN",
     tone: "#3A3F45",
+    quote: "Pay the people. Cap the runs. Sleep at night.",
   },
   {
     name: "AALIYAH JEAN",
     role: "BRAND + COMMUNITY",
     city: "BROOKLYN",
     tone: "#D9C9A8",
+    quote: "Our customers aren't an audience. They're the show.",
   },
 ];
 
@@ -75,7 +81,9 @@ const values = [
         style="font-size: clamp(3rem, 11vw, 11rem); line-height: 0.85;"
       >
         <span class="block">SMALL LABEL.</span>
-        <span class="block text-yellow italic">LOUD CAPS.</span>
+        <SparkleText client:visible color="#FFCC00" count={12} className="block text-yellow italic">
+          LOUD CAPS.
+        </SparkleText>
         <span class="block text-stroke">ZERO COMPROMISE.</span>
       </h1>
       <p
@@ -205,11 +213,27 @@ const values = [
               ></div>
               <div class="noise-overlay absolute inset-0 opacity-30"></div>
               <div
-                class="absolute inset-0 grid place-items-center font-display text-bone/[0.12]"
+                class="absolute inset-0 grid place-items-center font-display text-bone/[0.12] transition-opacity duration-500 group-hover:opacity-30"
                 style="font-size: 10vw;"
               >
                 {m.name.split(" ").map((n) => n[0]).join("")}
               </div>
+
+              {/* Quote overlay (revealed on hover) */}
+              <div
+                class="absolute inset-0 flex items-center bg-black/70 p-6 opacity-0 backdrop-blur-sm transition-all duration-500 group-hover:opacity-100"
+              >
+                <div>
+                  <span class="font-display text-4xl text-yellow">"</span>
+                  <p class="font-display text-lg leading-tight text-bone">
+                    {m.quote}
+                  </p>
+                  <p class="mt-4 font-mono text-[10px] tracking-widest text-bone/40">
+                    — {m.name}
+                  </p>
+                </div>
+              </div>
+
               <span class="absolute right-4 top-4 rounded-full border border-bone/20 bg-black/40 px-3 py-1 font-mono text-[10px] tracking-widest text-bone/70 backdrop-blur">
                 {m.city}
               </span>
@@ -221,6 +245,9 @@ const values = [
       </div>
     </div>
   </section>
+
+  {/* Timeline */}
+  <Timeline />
 
   {/* CTA */}
   <section class="bg-ink py-24 text-center lg:py-32">

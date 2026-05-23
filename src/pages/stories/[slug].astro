@@ -1,0 +1,210 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Button from "@components/ui/Button.astro";
+import { STORIES, getStory } from "@data/stories";
+import { Clock, User, Share2 } from "lucide-react";
+
+export function getStaticPaths() {
+  return STORIES.map((s) => ({
+    params: { slug: s.slug },
+    props: { story: s },
+  }));
+}
+
+const { story } = Astro.props;
+if (!story) return Astro.redirect("/stories");
+
+const related = (story.related ?? [])
+  .map((slug) => STORIES.find((s) => s.slug === slug))
+  .filter(Boolean);
+---
+
+<Layout title={story.title} description={story.excerpt}>
+  {/* Hero */}
+  <article>
+    <header class="relative overflow-hidden bg-black pt-40 pb-16 lg:pb-24">
+      <div
+        class="pointer-events-none absolute inset-0 opacity-25"
+        style={`background: radial-gradient(ellipse at 30% 30%, ${story.tone}40, transparent 60%);`}
+      ></div>
+
+      <div class="relative mx-auto max-w-3xl px-6">
+        <a
+          href="/stories"
+          class="mb-6 inline-flex items-center gap-2 font-mono text-[10px] tracking-widest text-bone/40 hover:text-yellow"
+        >
+          ← BACK TO JOURNAL
+        </a>
+
+        <div class="mb-4 flex items-center gap-3 font-mono text-[10px] tracking-widest text-bone/60">
+          <span
+            class="rounded-full px-3 py-1 font-display text-[10px] text-black"
+            style={`background: ${story.tone};`}
+          >
+            {story.tag}
+          </span>
+          <span class="flex items-center gap-1">
+            <Clock size={11} /> {story.read} READ
+          </span>
+          <span>·</span>
+          <span>{story.date}</span>
+        </div>
+
+        <h1
+          class="font-display tracking-tight"
+          style="font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.95;"
+        >
+          {story.title}
+        </h1>
+
+        <p class="mt-8 max-w-2xl text-xl leading-relaxed text-bone/70">
+          {story.excerpt}
+        </p>
+
+        <div class="mt-10 flex items-center justify-between border-y border-bone/10 py-5">
+          <div class="flex items-center gap-3">
+            <span
+              class="grid h-12 w-12 place-items-center rounded-full font-display text-base text-black"
+              style={`background: ${story.tone};`}
+            >
+              {story.author.initials}
+            </span>
+            <div>
+              <p class="font-display text-sm tracking-wide">
+                {story.author.name.toUpperCase()}
+              </p>
+              <p class="font-mono text-[10px] tracking-widest text-bone/40">
+                {story.author.role.toUpperCase()}
+              </p>
+            </div>
+          </div>
+          <button
+            class="flex items-center gap-2 rounded-full border border-bone/20 px-4 py-2 font-mono text-[10px] tracking-widest text-bone/60 hover:border-yellow hover:text-yellow"
+            data-cursor="hover"
+          >
+            <Share2 size={11} />
+            SHARE
+          </button>
+        </div>
+      </div>
+    </header>
+
+    {/* Feature image / mood block */}
+    <div class="bg-black pb-12">
+      <div class="mx-auto max-w-3xl px-6">
+        <div
+          class="relative aspect-[16/9] overflow-hidden rounded-3xl bg-graphite"
+          style={`background: radial-gradient(circle at 30% 40%, ${story.tone}50, #0a0a0a 70%);`}
+        >
+          <div class="noise-overlay absolute inset-0 opacity-30"></div>
+          <div
+            class="absolute inset-0 grid place-items-center font-display text-bone/[0.08]"
+            style="font-size: 12vw;"
+          >
+            {story.tag}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Body */}
+    <div class="bg-black pb-24">
+      <div class="mx-auto max-w-2xl px-6">
+        <div class="space-y-6 text-lg leading-relaxed text-bone/80">
+          {story.body.map((p, i) => (
+            <>
+              <p>{p}</p>
+              {story.pullQuote && i === Math.floor(story.body.length / 2) && (
+                <blockquote class="my-12 border-l-4 border-yellow pl-6 py-2">
+                  <p
+                    class="font-display tracking-tight text-bone"
+                    style="font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.1;"
+                  >
+                    "{story.pullQuote}"
+                  </p>
+                  <footer class="mt-4 font-mono text-[10px] tracking-widest text-bone/40">
+                    — {story.author.name.toUpperCase()}, {story.author.role.toUpperCase()}
+                  </footer>
+                </blockquote>
+              )}
+            </>
+          ))}
+        </div>
+
+        {/* Author bio */}
+        <div class="mt-16 flex items-center gap-4 rounded-3xl border border-bone/10 bg-ink p-6">
+          <span
+            class="grid h-16 w-16 shrink-0 place-items-center rounded-full font-display text-xl text-black"
+            style={`background: ${story.tone};`}
+          >
+            {story.author.initials}
+          </span>
+          <div>
+            <p class="font-display text-xl tracking-tight">
+              {story.author.name.toUpperCase()}
+            </p>
+            <p class="text-sm text-bone/60">{story.author.role}</p>
+            <a
+              href={`/stories?author=${story.author.initials}`}
+              class="mt-2 inline-block font-mono text-[10px] tracking-widest text-yellow hover:underline"
+            >
+              MORE FROM {story.author.name.split(" ")[0].toUpperCase()} →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  {/* Related */}
+  {related.length > 0 && (
+    <section class="bg-ink py-24">
+      <div class="mx-auto max-w-[1300px] px-6 lg:px-10">
+        <div class="mb-12 flex items-end justify-between">
+          <div>
+            <div class="mb-4 flex items-center gap-3 font-mono text-xs tracking-widest text-bone/60">
+              <span class="block h-px w-12 bg-yellow"></span>
+              <span>KEEP READING</span>
+            </div>
+            <h2 class="font-display tracking-tight" style="font-size: clamp(2rem, 5vw, 4rem);">
+              MORE <span class="italic text-yellow">STORIES.</span>
+            </h2>
+          </div>
+          <Button href="/stories" variant="ghost" arrow>ALL STORIES</Button>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-3">
+          {related.map((s) => s && (
+            <a
+              href={`/stories/${s.slug}`}
+              class="group flex flex-col gap-4 overflow-hidden rounded-2xl border border-bone/10 bg-black p-6 transition-all hover:border-yellow/40 hover:bg-graphite"
+              data-cursor="hover"
+            >
+              <div
+                class="relative aspect-[4/3] overflow-hidden rounded-xl"
+                style={`background: linear-gradient(135deg, ${s.tone}30, #0a0a0a 70%);`}
+              >
+                <div class="noise-overlay absolute inset-0 opacity-30"></div>
+                <div
+                  class="absolute inset-0 grid place-items-center font-display text-bone/[0.08]"
+                  style="font-size: 6vw;"
+                >
+                  {s.tag}
+                </div>
+              </div>
+              <div class="flex items-center gap-2 font-mono text-[10px] tracking-widest text-bone/40">
+                <span>{s.tag}</span>
+                <span>·</span>
+                <span>{s.read}</span>
+              </div>
+              <h3 class="font-display text-xl leading-tight tracking-tight transition-colors group-hover:text-yellow">
+                {s.title}
+              </h3>
+              <p class="line-clamp-2 text-sm text-bone/60">{s.excerpt}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</Layout>

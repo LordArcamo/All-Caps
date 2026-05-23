@@ -22,7 +22,11 @@ export const NAV = {
     { label: "Lookbook", href: "/lookbook" },
     { label: "Stories", href: "/stories" },
     { label: "About", href: "/about" },
-  ],
+  ] as const,
+  account: [
+    { label: "Account", href: "/account" },
+    { label: "Wishlist", href: "/wishlist" },
+  ] as const,
   shop: [
     { label: "All Caps", href: "/shop", featured: true },
     { label: "Snapbacks", href: "/shop?cat=snapback" },

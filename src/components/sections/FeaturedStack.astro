@@ -1,0 +1,66 @@
+---
+import CardStack3D from "@components/react/CardStack3D.tsx";
+import GradientBeams from "@components/react/GradientBeams.tsx";
+---
+
+<section
+  class="relative overflow-hidden bg-black py-32 lg:py-48"
+  data-section="featured-stack"
+>
+  <GradientBeams client:visible count={8} colors={["#FFCC00", "#FF2D2D"]} />
+
+  {/* Subtle radial glow */}
+  <div
+    class="pointer-events-none absolute left-1/2 top-1/2 h-[120vh] w-[120vh] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.15] blur-[120px]"
+    style="background: radial-gradient(circle, #FFCC00 0%, transparent 60%);"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="relative mx-auto grid max-w-[1600px] gap-12 px-6 lg:grid-cols-2 lg:items-center lg:gap-20 lg:px-10">
+    {/* Left: copy */}
+    <div>
+      <div class="mb-4 flex items-center gap-3 font-mono text-xs tracking-widest text-bone/60">
+        <span class="block h-px w-12 bg-yellow"></span>
+        <span>FROM THE DROP</span>
+      </div>
+      <h2
+        class="font-display tracking-tight"
+        style="font-size: clamp(2.5rem, 7vw, 6rem); line-height: 0.9;"
+      >
+        <span class="block">FIVE PIECES.</span>
+        <span class="block text-yellow italic">PICK ONE.</span>
+      </h2>
+      <p class="mt-8 max-w-md text-base leading-relaxed text-bone/60">
+        Auto-rotating, three-deep card stack — every cap in Drop 02 within
+        arm's reach. Hover to pause, click to open.
+      </p>
+
+      <div class="mt-12 grid grid-cols-3 gap-4">
+        <div>
+          <p class="font-display text-4xl text-yellow">5</p>
+          <p class="mt-1 font-mono text-[10px] tracking-widest text-bone/40">
+            ON ROTATION
+          </p>
+        </div>
+        <div>
+          <p class="font-display text-4xl text-yellow">3D</p>
+          <p class="mt-1 font-mono text-[10px] tracking-widest text-bone/40">
+            CARD STACK
+          </p>
+        </div>
+        <div>
+          <p class="font-display text-4xl text-yellow">∞</p>
+          <p class="mt-1 font-mono text-[10px] tracking-widest text-bone/40">
+            LOOPED
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {/* Right: stack */}
+    <div>
+      <CardStack3D client:visible />
+    </div>
+  </div>
+</section>
