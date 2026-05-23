@@ -1,11 +1,14 @@
 ---
 import Button from "@components/ui/Button.astro";
+import SpotlightBackground from "@components/react/SpotlightBackground.tsx";
 ---
 
 <section
   class="relative overflow-hidden bg-black py-32 lg:py-48"
   data-section="newsletter"
 >
+  <SpotlightBackground client:load color="#FFCC00" size={680} gridSize={40} dotOpacity={0.04} intensity={0.4} />
+
   {/* Big background type */}
   <div
     class="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden"

@@ -5,6 +5,8 @@ import Footer from "@components/Footer.astro";
 import SmoothScroll from "@components/SmoothScroll.tsx";
 import Cursor from "@components/Cursor.tsx";
 import CartDrawer from "@components/react/CartDrawer.tsx";
+import CommandPalette from "@components/react/CommandPalette.tsx";
+import ChatWidget from "@components/react/ChatWidget.tsx";
 import { SITE } from "@data/site";
 
 interface Props {
@@ -59,6 +61,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://allcaps.exa
     <SmoothScroll client:idle />
     <Cursor client:idle />
     <CartDrawer client:idle />
+    <CommandPalette client:idle />
+    <ChatWidget client:idle />
 
     {!noNav && <Nav />}
 

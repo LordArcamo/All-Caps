@@ -1,5 +1,6 @@
 ---
 import Logo from "./Logo.astro";
+import MegaMenu from "./react/MegaMenu.tsx";
 import { NAV } from "@data/site";
 import { ShoppingBag, Search, User, Menu } from "lucide-react";
 ---
@@ -37,22 +38,38 @@ import { ShoppingBag, Search, User, Menu } from "lucide-react";
 
       <nav class="hidden items-center gap-1 lg:flex" aria-label="Primary">
         {
-          NAV.primary.map((item) => (
-            <a
-              href={item.href}
-              class="group relative px-5 py-2 font-display text-sm uppercase tracking-wider text-bone/80 transition-colors hover:text-bone"
-            >
-              <span class="relative z-10">{item.label}</span>
-              <span class="absolute inset-x-5 bottom-1 h-px origin-left scale-x-0 bg-yellow transition-transform duration-500 group-hover:scale-x-100" />
-            </a>
-          ))
+          NAV.primary.map((item) =>
+            item.label === "Shop" ? (
+              <MegaMenu client:load />
+            ) : (
+              <a
+                href={item.href}
+                class="group relative px-5 py-2 font-display text-sm uppercase tracking-wider text-bone/80 transition-colors hover:text-bone"
+              >
+                <span class="relative z-10">{item.label}</span>
+                <span class="absolute inset-x-5 bottom-1 h-px origin-left scale-x-0 bg-yellow transition-transform duration-500 group-hover:scale-x-100" />
+              </a>
+            ),
+          )
         }
       </nav>
 
       <div class="flex items-center gap-2">
         <button
-          class="grid h-10 w-10 place-items-center rounded-full text-bone/80 transition-all hover:bg-bone/10 hover:text-yellow"
+          class="group hidden items-center gap-2 rounded-full border border-bone/15 bg-bone/5 px-3 py-2 text-bone/60 transition-all hover:border-yellow/40 hover:text-yellow lg:flex"
           aria-label="Search"
+          data-cmdk-trigger
+        >
+          <Search size={14} />
+          <span class="font-mono text-[10px] tracking-widest">SEARCH</span>
+          <kbd class="rounded border border-bone/20 bg-bone/10 px-1.5 py-0.5 font-mono text-[9px] tracking-wider text-bone/60">
+            ⌘K
+          </kbd>
+        </button>
+        <button
+          class="grid h-10 w-10 place-items-center rounded-full text-bone/80 transition-all hover:bg-bone/10 hover:text-yellow lg:hidden"
+          aria-label="Search"
+          data-cmdk-trigger
         >
           <Search size={18} />
         </button>

@@ -1,6 +1,7 @@
 ---
 import Button from "@components/ui/Button.astro";
 import Stat from "@components/Stat.astro";
+import SpotlightBackground from "@components/react/SpotlightBackground.tsx";
 ---
 
 <section
@@ -15,13 +16,15 @@ import Stat from "@components/Stat.astro";
   >
   </div>
 
-  {/* Grid lines */}
-  <div
-    class="pointer-events-none absolute inset-0 opacity-[0.04]"
-    style="background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 80px 80px;"
-    aria-hidden="true"
-  >
-  </div>
+  {/* Animated spotlight + dot grid */}
+  <SpotlightBackground
+    client:load
+    color="#FFCC00"
+    size={720}
+    gridSize={36}
+    dotOpacity={0.05}
+    intensity={0.45}
+  />
 
   {/* Vertical text rail */}
   <div

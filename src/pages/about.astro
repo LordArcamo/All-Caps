@@ -2,6 +2,7 @@
 import Layout from "@layouts/Layout.astro";
 import Button from "@components/ui/Button.astro";
 import Stat from "@components/Stat.astro";
+import SpotlightBackground from "@components/react/SpotlightBackground.tsx";
 
 const team = [
   {
@@ -58,6 +59,7 @@ const values = [
 
   {/* Hero */}
   <section class="relative overflow-hidden bg-black pt-40 pb-20">
+    <SpotlightBackground client:load color="#FF2D2D" size={640} gridSize={36} dotOpacity={0.05} intensity={0.4} />
     <div
       class="pointer-events-none absolute -top-60 right-10 h-[90vh] w-[90vh] rounded-full opacity-30 blur-[120px]"
       style="background: radial-gradient(circle, #FF2D2D 0%, transparent 70%);"
